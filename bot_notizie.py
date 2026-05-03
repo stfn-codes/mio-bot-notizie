@@ -8,27 +8,35 @@ CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 NEWS_API_KEY = os.getenv('NEWS_API_KEY')
 
 def get_news():
-    # Usiamo NewsData.io (registrati per la key gratuita)
-    url = f"https://newsdata.io/api/1/news?apikey={NEWS_API_KEY}&language=it&q=tecnologia&timeframe=24&prioritydomain=top"
+    url = f"https://newsdata.io/api/1/news?apikey={NEWS_API_KEY}&language=it&q=mondo&timeframe=24&prioritydomain=top"
     
     try:
         response = requests.get(url).json()
-        articoli = response.get('results', [])[:5] # Prendiamo le prime 5 notizie
+        
+        # Controlliamo se l'API ha risposto con un errore (status != success)
+        if response.get('status') != "success":
+            errore_msg = response.get('results', {}).get('message', 'Errore sconosciuto')
+            return f"❌ Errore dall'API delle notizie: {errore_msg}"
 
+        articoli = response.get('results', [])
+        
         if not articoli:
             return "📭 Nessuna notizia rilevante nelle ultime 24 ore."
 
         data_oggi = datetime.now().strftime("%d/%m/%Y")
-        report = f"🗞 **REPORT MATTUTINO - {data_oggi}**\n\n"
-    
-        for art in articoli:
+        report = f"🗞 **REPORT MATTUTINO - {data_oggi}**\n"
+        report += "______________________________\n\n"
+        
+        # Prendiamo i primi 5 articoli in modo sicuro
+        for art in articoli[:5]:
             titolo = art.get('title', 'Titolo non disponibile')
             link = art.get('link', '#')
             report += f"📍 **{titolo}**\n🔗 [Leggi l'articolo]({link})\n\n"
-    
+        
         return report
+
     except Exception as e:
-        return f"⚠️ Errore nel recupero notizie: {e}"
+        return f"⚠️ Errore tecnico nel recupero notizie: {e}"
 
 def send_telegram_message(testo):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
