@@ -36,7 +36,10 @@ def send_telegram_message(testo):
         "chat_id": CHAT_ID,
         "text": testo,
         "parse_mode": "Markdown"
-        "disable_web_page_preview": False
+        "link_preview_options": {
+            "is_disabled": False
+            "prefer_small_media": True
+        }
     }
     requests.post(url, json=payload)
 
