@@ -8,7 +8,7 @@ NEWS_API_KEY = os.getenv('NEWS_API_KEY')
 
 def get_news():
     # Usiamo NewsData.io come esempio (registrati per la key gratuita)
-    url = f"https://newsdata.io/api/1/news?apikey={NEWS_API_KEY}&language=it&q=mondo"
+    url = f"https://newsdata.io/api/1/news?apikey={NEWS_API_KEY}&language=it&q=tecnologia"
     response = requests.get(url).json()
     
     articoli = response.get('results', [])[:5] # Prendiamo le prime 5 notizie
