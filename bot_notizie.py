@@ -35,9 +35,9 @@ def send_telegram_message(testo):
     payload = {
         "chat_id": CHAT_ID,
         "text": testo,
-        "parse_mode": "Markdown"
+        "parse_mode": "Markdown",
         "link_preview_options": {
-            "is_disabled": False
+            "is_disabled": False,
             "prefer_small_media": True
         }
     }
