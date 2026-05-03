@@ -8,7 +8,7 @@ CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 NEWS_API_KEY = os.getenv('NEWS_API_KEY')
 
 def get_news():
-    url = f"https://newsdata.io/api/1/news?apikey={NEWS_API_KEY}&language=it&q=mondo&prioritydomain=top"
+    url = f"https://newsdata.io/api/1/news?apikey={NEWS_API_KEY}&language=it&q=tecnologia&q=sport&prioritydomain=top"
     
     try:
         response = requests.get(url).json()
